@@ -19,7 +19,8 @@ A lightweight, menu‑driven batch script that deploys common persistence mechan
 3. Registry-ScreenSaver (HKCU) 
 4. Url-File Creation + DLL URL Exec Help (.URL)
 5. Registry-Werfault (Admin - HKLM)
-6. Bring Your Own Protocol Handler + URL-File 
+6. Bring Your Own Protocol Handler + URL-File
+7. WMI Stealth Persistence
 ```
 
 
@@ -74,7 +75,7 @@ Or simply Double Click the file
 4. Url-File Creation + DLL URL Exec Help (.URL)
 5. Registry-Werfault (Admin - HKLM)
 6. Bring Your Own Protocol Handler + URL-File
-7.
+7. WMI Stealth Persistence
 8. Guides For Persistence
 9. Exit
 ==============================
