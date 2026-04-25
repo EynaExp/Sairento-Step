@@ -49,7 +49,7 @@ cd Sairento-Step/
 ```
 Or simply Double Click the file
 
-### 4.Enjoy using the framework
+### 4. Enjoy using the framework
 
 ```cmd
 ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷
